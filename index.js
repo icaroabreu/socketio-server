@@ -82,7 +82,7 @@ io.sockets.on('connection', function (socket){
 	
 	socket.on('get_missed_messages', function(last_id){
 		
-		Message.find({_id: {$gt : (last_id)}, flag: "message"}).sort({$natural: -1}).limit(30).exec(function(err, messages){
+		Message.find({_id: {$gt : (last_id)}, flag: "message"}).sort({$natural: -1}).exec(function(err, messages){
 			
 			var missed_messages = { messages : [] };
 		
@@ -189,7 +189,7 @@ io.sockets.on('connection', function (socket){
 					if(err) return console.error(err);
 					
 					connectedUsers[socket.id].socketID.broadcast.emit('message', message);
-					connectedUsers[socket.id].socketID.emit('message_recieved', { message_id : message.message_id, _id : message._id});
+					connectedUsers[socket.id].socketID.emit('message_received', { message_id : message.message_id, _id : message._id});
 					console.log(message);
 				
 				});
@@ -197,7 +197,7 @@ io.sockets.on('connection', function (socket){
 			}
 			else
 			{
-				connectedUsers[socket.id].socketID.emit('message_recieved', { message_id : message.message_id, _id: message._id});
+				connectedUsers[socket.id].socketID.emit('message_received', { message_id : message.message_id, _id: message._id});
 			}
 			
 		});					
